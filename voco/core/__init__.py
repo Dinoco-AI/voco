@@ -1,5 +1,6 @@
 from . import device, registry
 from .base_model import BaseAudioModel
+from .cache import VocoCache
 from .config import ModelConfig, merge_configs
 from .device import get_device, get_dtype
 from .registry import (
@@ -17,6 +18,7 @@ from .router import AudioRouter, ModelNotLoadedError
 __all__ = [
     "BaseAudioModel",
     "AudioRouter",
+    "VocoCache",
     "ModelConfig",
     "register_model",
     "unregister_model",

@@ -1,6 +1,7 @@
-from typing import Any
+from typing import Any, Optional
 
 from .base_model import BaseAudioModel
+from .cache import VocoCache
 from .registry import load as registry_load
 
 
@@ -9,8 +10,21 @@ class ModelNotLoadedError(Exception):
 
 
 class AudioRouter:
-    def __init__(self) -> None:
+    def __init__(
+        self,
+        cache: bool = False,
+        cache_config: Optional[dict[str, Any]] = None,
+    ) -> None:
         self._models: dict[str, BaseAudioModel] = {}
+        self._cache: Optional[VocoCache] = None
+
+        if cache:
+            config = cache_config or {}
+            self._cache = VocoCache(**config)
+
+    @property
+    def cache(self) -> Optional[VocoCache]:
+        return self._cache
 
     def load(
         self,
@@ -37,7 +51,23 @@ class AudioRouter:
             raise ModelNotLoadedError(
                 f"Model alias '{alias}' not found. Available aliases: {available}"
             )
-        return self._models[alias].generate(*args, **kwargs)
+
+        use_cache = kwargs.pop("cache", True)
+        text = kwargs.get("text", "")
+
+        if self._cache and use_cache and text:
+            cache_params = {k: v for k, v in kwargs.items() if k != "text"}
+            cached = self._cache.get(alias, text, **cache_params)
+            if cached:
+                return cached
+
+        result = self._models[alias].generate(*args, **kwargs)
+
+        if self._cache and use_cache and text and isinstance(result, bytes):
+            cache_params = {k: v for k, v in kwargs.items() if k != "text"}
+            self._cache.put(alias, text, result, **cache_params)
+
+        return result
 
     def get_model(self, alias: str) -> BaseAudioModel:
         if alias not in self._models:
