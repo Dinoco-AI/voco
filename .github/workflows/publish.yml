@@ -20,11 +20,34 @@ jobs:
           python -m pip install --upgrade pip
           pip install build twine
 
-      - name: Build package
+      - name: Build voco core
         run: python -m build
 
-      - name: Publish to PyPI
+      - name: Build all plugins
+        run: |
+          for plugin_dir in plugins/*/; do
+            if [ -f "${plugin_dir}pyproject.toml" ]; then
+              echo "Building ${plugin_dir}"
+              cd "${plugin_dir}"
+              python -m build
+              cd ../..
+            fi
+          done
+
+      - name: Publish voco core to PyPI
         env:
           TWINE_USERNAME: __token__
           TWINE_PASSWORD: ${{ secrets.VOCO }}
         run: twine upload dist/*
+
+      - name: Publish all plugins to PyPI
+        env:
+          TWINE_USERNAME: __token__
+          TWINE_PASSWORD: ${{ secrets.VOCO }}
+        run: |
+          for plugin_dir in plugins/*/; do
+            if [ -d "${plugin_dir}dist" ]; then
+              echo "Publishing ${plugin_dir}"
+              twine upload "${plugin_dir}dist/*"
+            fi
+          done
