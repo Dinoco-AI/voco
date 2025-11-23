@@ -1,6 +1,28 @@
-# VOCO
+<div align="left" style="margin: 10px 0 20px 0;">
+  <img
+    width="250"
+    alt="VOCO Logo"
+    src="https://github.com/user-attachments/assets/9c69bc29-22b9-4914-9fc3-b5e650eb703d"
+    style="
+      border-radius: 16px;
+      padding: 6px;
+      background: #000;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    "
+  />
+</div>
 
-Modular audio inference runtime with plugin architecture.
+# VOCO
+<p style="
+  font-size: 1.2rem;
+  color: #444;
+  margin: 6px 0 18px 0;
+  line-height: 1.55;
+  max-width: 540px;
+">
+  Modular audio inference runtime with plugin architecture.
+</p>
+
 
 ## Overview
 
