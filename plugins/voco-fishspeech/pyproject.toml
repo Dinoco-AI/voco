@@ -1,0 +1,51 @@
+[project]
+name = "voco-fishspeech"
+version = "0.0.1"
+description = "Fish Speech 1.5 TTS plugin for VOCO audio inference runtime"
+readme = "README.md"
+requires-python = ">=3.10"
+license = "MIT"
+dependencies = [
+    "voco>=0.0.1",
+    "torch>=2.5.1",
+    "torchaudio>=2.5.1",
+    "numpy<=1.26.4",
+    "scipy",
+    "loguru>=0.6.0",
+    "hydra-core>=1.3.2",
+    "click",
+    "tqdm",
+    "transformers>=4.45.2",
+    "huggingface-hub>=0.20.0",
+    "omegaconf",
+    "soundfile",
+    "einops>=0.7.0",
+    "vector_quantize_pytorch==1.14.24",
+    "librosa>=0.10.1",
+    "einx[torch]==0.2.2",
+    "natsort>=8.4.0",
+    "tiktoken>=0.8.0",
+    "loralib>=0.1.2",
+    "resampy>=0.4.3",
+    "pydantic>=2.0.0",
+    "cachetools",
+]
+
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools.packages.find]
+include = ["voco_fishspeech*"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py310"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "N", "W", "UP"]
+ignore = ["E501"]
+
+[tool.ruff.format]
+quote-style = "double"
+indent-style = "space"
