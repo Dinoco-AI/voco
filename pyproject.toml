@@ -1,6 +1,6 @@
 [project]
 name = "voco"
-version = "0.0.4"
+version = "0.0.5"
 description = "Modular audio model inference runtime with plugin architecture"
 readme = "README.md"
 requires-python = ">=3.10"
