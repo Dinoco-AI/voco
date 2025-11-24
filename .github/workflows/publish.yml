@@ -27,7 +27,16 @@ jobs:
         run: |
           for plugin_dir in plugins/*/; do
             if [ -f "${plugin_dir}pyproject.toml" ]; then
-              echo "Building ${plugin_dir}"
+              plugin_name=$(basename "${plugin_dir}")
+              version=$(grep '^version' "${plugin_dir}pyproject.toml" | cut -d'"' -f2)
+
+              # Check if this version already exists on PyPI
+              if pip index versions "${plugin_name}" 2>/dev/null | grep -q "${version}"; then
+                echo "Skipping ${plugin_name} ${version} - already published"
+                continue
+              fi
+
+              echo "Building ${plugin_name} ${version}"
               cd "${plugin_dir}"
               python -m build
               cd ../..
@@ -47,7 +56,8 @@ jobs:
         run: |
           for plugin_dir in plugins/*/; do
             if [ -d "${plugin_dir}dist" ]; then
-              echo "Publishing ${plugin_dir}"
-              twine upload "${plugin_dir}dist/*"
+              plugin_name=$(basename "${plugin_dir}")
+              echo "Publishing ${plugin_name}"
+              twine upload --skip-existing "${plugin_dir}dist/*" || echo "Warning: ${plugin_name} already exists or failed"
             fi
           done
