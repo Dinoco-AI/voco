@@ -1,6 +1,6 @@
 [project]
 name = "voco-fishspeech"
-version = "0.0.1"
+version = "0.0.2"
 description = "Fish Speech 1.5 TTS plugin for VOCO audio inference runtime"
 readme = "README.md"
 requires-python = ">=3.10"
