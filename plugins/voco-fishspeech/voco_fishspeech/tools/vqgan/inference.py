@@ -20,11 +20,16 @@ OmegaConf.register_new_resolver("eval", eval)
 
 def load_model(config_name, checkpoint_path, device="cuda"):
     hydra.core.global_hydra.GlobalHydra.instance().clear()
-    # Hydra needs relative path from current file
-    # configs is at: voco_fishspeech/configs
-    # this file is at: voco_fishspeech/tools/vqgan/inference.py
-    # so relative path is: ../../configs
-    with initialize(version_base="1.3", config_path="../../configs"):
+
+    # Find configs directory - works both in dev and installed package
+    import pkg_resources
+    try:
+        config_path = pkg_resources.resource_filename('voco_fishspeech', 'configs')
+    except:
+        # Fallback to relative path for development
+        config_path = str(Path(__file__).parent.parent.parent / "configs")
+
+    with initialize(version_base="1.3", config_path=config_path):
         cfg = compose(config_name=config_name)
 
     model = instantiate(cfg)
