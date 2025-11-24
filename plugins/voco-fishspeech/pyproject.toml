@@ -1,6 +1,6 @@
 [project]
 name = "voco-fishspeech"
-version = "0.0.2"
+version = "0.0.3"
 description = "Fish Speech 1.5 TTS plugin for VOCO audio inference runtime"
 readme = "README.md"
 requires-python = ">=3.10"
@@ -37,6 +37,9 @@ build-backend = "setuptools.build_meta"
 
 [tool.setuptools.packages.find]
 include = ["voco_fishspeech*"]
+
+[tool.setuptools.package-data]
+voco_fishspeech = ["configs/*.yaml", "configs/**/*.yaml"]
 
 [tool.ruff]
 line-length = 100
