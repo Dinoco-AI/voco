@@ -31,9 +31,6 @@ dependencies = [
     "cachetools",
 ]
 
-[build-system]
-requires = ["setuptools>=61.0", "wheel"]
-
 [project.entry-points."voco.plugins"]
 fishspeech = "voco_fishspeech"
 
