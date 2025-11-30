@@ -1,5 +1,8 @@
 from . import device, registry
 from .base_model import BaseAudioModel
+from .plugin_loader import discover_plugins
+
+discover_plugins()
 from .cache import VocoCache
 from .config import ModelConfig, merge_configs
 from .device import get_device, get_dtype

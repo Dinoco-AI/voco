@@ -1,43 +1,38 @@
 # voco-fishspeech
 
-Fish Speech 1.5 TTS plugin for VOCO audio inference runtime.
+Fish Speech plugin for VOCO - multilingual text-to-speech with voice cloning.
 
-## Installation
+## Install
 
 ```bash
-cd plugins/voco-fishspeech
 pip install -e .
 ```
-
-## Requirements
-
-- Fish Speech 1.5 checkpoints should be available at the configured checkpoint path
-- All Fish Speech code is bundled inside the plugin (no external dependencies needed)
 
 ## Usage
 
 ```python
-from voco import Voco
+from voco.core import AudioRouter
 
-# Initialize with Fish Speech
-voco = Voco(model="fishspeech", device="cuda", checkpoint_path="checkpoints/fish-speech-1.5")
+router = AudioRouter()
+router.load("fishspeech", alias="tts")
 
-# Generate audio
-for audio_chunk in voco.generate(
-    text="Hello, this is a test of Fish Speech.",
-    reference_audio="path/to/reference.wav",
-    reference_text="reference audio",
-    temperature=0.7,
-    top_p=0.7,
-    repetition_penalty=1.1
+for result in router.infer(
+    "tts",
+    text="Hello world",
+    ref_audio="reference.wav",
+    ref_text="Reference transcript"
 ):
-    # Process audio chunk
-    pass
+    print(result.audio.shape)
 ```
 
-## Configuration
+## Features
 
-- `checkpoint_path`: Path to Fish Speech 1.5 checkpoints (default: "checkpoints/fish-speech-1.5")
-- `device`: Device to run inference on (default: "cuda")
-- `dtype`: Data type for inference (default: "bfloat16")
-- `compile`: Whether to compile the model with torch.compile (default: True)
+- Multilingual support
+- Voice cloning capabilities
+- High-quality speech synthesis
+- Flexible reference encoding
+
+## Requirements
+
+- Python >=3.10
+- PyTorch with CUDA support recommended
