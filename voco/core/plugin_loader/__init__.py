@@ -1,23 +1,19 @@
-"""Plugin loader for VOCO."""
+from importlib.metadata import entry_points
 
 
-def discover_plugins(plugin_dir: str | None = None) -> list[str]:
-    """Discover and load VOCO plugins.
+def discover_plugins() -> list[str]:
+    loaded = []
+    eps = entry_points()
+    group = eps.select(group="voco.plugins") if hasattr(eps, "select") else eps.get("voco.plugins", [])
 
-    Currently a placeholder. Plugins must be imported manually.
-    """
-    return []
+    for ep in group:
+        try:
+            ep.load()
+            loaded.append(ep.name)
+        except Exception:
+            pass
+
+    return loaded
 
 
-def load_plugin(name: str) -> bool:
-    """Load a specific plugin by name.
-
-    Currently a placeholder.
-    """
-    return False
-
-
-__all__ = [
-    "discover_plugins",
-    "load_plugin",
-]
+__all__ = ["discover_plugins"]

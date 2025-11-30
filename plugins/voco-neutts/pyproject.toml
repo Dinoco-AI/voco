@@ -1,35 +1,37 @@
 [project]
-name = "voco-kokoro"
-version = "0.0.2"
-description = "Kokoro TTS plugin for VOCO audio inference runtime"
+name = "voco-neutts"
+version = "0.0.1"
+description = "NeuTTS Air plugin for VOCO audio inference runtime"
 readme = "README.md"
-requires-python = ">=3.10"
+requires-python = ">=3.11"
 license = "MIT"
 dependencies = [
     "voco>=0.0.1",
-    "attrs",
+    "librosa==0.11.0",
+    "neucodec>=0.0.4",
+    "numpy==2.2.6",
+    "phonemizer==3.3.0",
+    "soundfile==0.13.1",
+    "torch==2.8.0",
+    "transformers==4.56.1",
+    "resemble-perth==1.0.1",
     "huggingface_hub",
     "loguru",
-    "misaki[en]>=0.9.4",
-    "numpy",
-    "scipy",
-    "torch",
-    "transformers",
 ]
 
 [project.entry-points."voco.plugins"]
-kokoro = "voco_kokoro"
+neutts = "voco_neutts"
 
 [build-system]
 requires = ["setuptools>=61.0", "wheel"]
 build-backend = "setuptools.build_meta"
 
 [tool.setuptools.packages.find]
-include = ["voco_kokoro*"]
+include = ["voco_neutts*"]
 
 [tool.ruff]
 line-length = 100
-target-version = "py310"
+target-version = "py311"
 
 [tool.ruff.lint]
 select = ["E", "F", "I", "N", "W", "UP"]

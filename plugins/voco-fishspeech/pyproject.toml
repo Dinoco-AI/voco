@@ -1,6 +1,6 @@
 [project]
 name = "voco-fishspeech"
-version = "0.0.3"
+version = "0.0.4"
 description = "Fish Speech 1.5 TTS plugin for VOCO audio inference runtime"
 readme = "README.md"
 requires-python = ">=3.10"
@@ -30,6 +30,12 @@ dependencies = [
     "pydantic>=2.0.0",
     "cachetools",
 ]
+
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+
+[project.entry-points."voco.plugins"]
+fishspeech = "voco_fishspeech"
 
 [build-system]
 requires = ["setuptools>=61.0", "wheel"]
